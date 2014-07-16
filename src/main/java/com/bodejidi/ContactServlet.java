@@ -10,16 +10,19 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 public class ContactServlet extends HttpServlet{
-    public void doGet(HttpServletRequest req, HttpServletResponse resp) 	throws IOException, ServletException{
+    public void doGet(HttpServletRequest req, HttpServletResponse resp)throws IOException, ServletException{
     
     	resp.getWriter().println(req.getParameter("name"));
         
         try{
             Class.forName("com.mysql.jdbc.Driver").newInstance();
-        } catch (Exception ex){}
+        } catch (Exception ex)
+        {
+            //ignore;
+        }
         
         try{
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/test?user=root&password=");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost/test?" + "user=root" + "&password=");
             resp.getWriter().println(connection);
             connection.close();
         } catch(SQLException sqle){
