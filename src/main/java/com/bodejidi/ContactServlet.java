@@ -14,8 +14,7 @@ import java.sql.ResultSet;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
+
 
 public class ContactServlet extends HttpServlet{
     String sql = null;
@@ -28,38 +27,37 @@ public class ContactServlet extends HttpServlet{
             sql = "select * from contact";
             resp.getWriter().println("get all contacts!");
             
-            for(Map map: getAllContacts(sql)){
-                Map contact = map;
-            
-                resp.getWriter().println("Id:" + contact.get("id"));
-                resp.getWriter().println("Name:" + contact.get("name"));
-                resp.getWriter().println("Mobile:" + contact.get("mobile"));
-                resp.getWriter().println("Vpmn:" + contact.get("vpmn"));
-                resp.getWriter().println("Job:" + contact.get("job"));
+            for(Contact contact: getAllContacts(sql)){
+                resp.getWriter().println("Id:" + contact.getId());
+                resp.getWriter().println("Name:" + contact.getName());
+                resp.getWriter().println("Mobile:" + contact.getMobile());
+                resp.getWriter().println("Vpmn:" + contact.getVpmn());
+                resp.getWriter().println("Job:" + contact.getJob());
             }
         }else{
             sql = "select * from contact where name ='" + req.getParameter("name") + "'";
             resp.getWriter().println(req.getParameter("name"));
-            Map contact = getContactByName(sql);
+            Contact contact = getContactByName(sql);
             
-            if(contact.get("name") != null){
-                resp.getWriter().println("Name: " + contact.get("name"));
-                resp.getWriter().println("Mobile: " + contact.get("mobile"));
-                resp.getWriter().println("Vpmn: " + contact.get("vpmn"));
-                resp.getWriter().println("Email: " + contact.get("email"));
-                resp.getWriter().println("HomeAddress: " + contact.get("homeAddress"));
-                resp.getWriter().println("OfficeAddress: " + contact.get("officeAddress"));
-                resp.getWriter().println("Memo: " + contact.get("memo"));
-                resp.getWriter().println("Job: " + contact.get("job"));
-                resp.getWriter().println("JobLevel: " + contact.get("jobLevel"));
+            if(contact.getName() != null){
+                resp.getWriter().println("Id: " + contact.getId());
+                resp.getWriter().println("Name: " + contact.getName());
+                resp.getWriter().println("Mobile: " + contact.getMobile());
+                resp.getWriter().println("Vpmn: " + contact.getVpmn());
+                resp.getWriter().println("Email: " + contact.getEmail());
+                resp.getWriter().println("HomeAddress: " + contact.getHomeAddress());
+                resp.getWriter().println("OfficeAddress: " + contact.getOfficeAddress());
+                resp.getWriter().println("Memo: " + contact.getMemo());
+                resp.getWriter().println("Job: " + contact.getJob());
+                resp.getWriter().println("JobLevel: " + contact.getJobLevel());
             }else{
                 resp.getWriter().println("Contact not found!");
             }
         }
     }
     
-    private List<Map> getAllContacts(String sql){
-        List<Map> contacts = new ArrayList();
+    private List<Contact> getAllContacts(String sql){
+        List<Contact> contacts = new ArrayList();
         try{
             Class.forName("com.mysql.jdbc.Driver").newInstance();
         } catch (Exception ex)
@@ -73,13 +71,13 @@ public class ContactServlet extends HttpServlet{
             rs = stmt.executeQuery(sql);
             
             while (rs.next()){
-                Map contact = new HashMap();
+                Contact contact = new Contact();
                 
-                contact.put("id", rs.getInt("id"));
-                contact.put("name", rs.getString("name"));
-                contact.put("mobile", rs.getString("mobile"));
-                contact.put("vpmn", rs.getString("vpmn"));
-                contact.put("job", rs.getString("job"));
+                contact.setId(rs.getInt("id"));
+                contact.setName(rs.getString("name"));
+                contact.setMobile(rs.getString("mobile"));
+                contact.setVpmn(rs.getString("vpmn"));
+                contact.setJob(rs.getString("job"));
                 
                 contacts.add(contact);
             }
@@ -114,8 +112,8 @@ public class ContactServlet extends HttpServlet{
         return contacts;
     }
     
-    private Map getContactByName(String sql){
-        Map contact = new HashMap(); 
+    private Contact getContactByName(String sql){
+        Contact contact = new Contact(); 
         try{
             Class.forName("com.mysql.jdbc.Driver").newInstance();
         } catch (Exception ex)
@@ -129,15 +127,16 @@ public class ContactServlet extends HttpServlet{
             rs = stmt.executeQuery(sql);
             
             if (rs.next()){
-                contact.put("name", rs.getString("name"));
-                contact.put("mobile", rs.getString("mobile"));
-                contact.put("vpmn", rs.getString("vpmn"));
-                contact.put("email", rs.getString("email"));
-                contact.put("homeAddress", rs.getString("home_address"));
-                contact.put("officeAddress", rs.getString("office_address"));
-                contact.put("memo", rs.getString("memo"));
-                contact.put("job", rs.getString("job"));
-                contact.put("jobLevel", rs.getString("job_level"));
+                contact.setId(rs.getInt("id"));
+                contact.setName(rs.getString("name"));
+                contact.setMobile(rs.getString("mobile"));
+                contact.setVpmn(rs.getString("vpmn"));
+                contact.setEmail(rs.getString("email"));
+                contact.setHomeAddress(rs.getString("home_address"));
+                contact.setOfficeAddress(rs.getString("office_address"));
+                contact.setMemo(rs.getString("memo"));
+                contact.setJob(rs.getString("job"));
+                contact.setJobLevel(rs.getInt("job_level"));
             }
             
         } catch(SQLException sqle){
