@@ -1,6 +1,6 @@
 #!/bin/sh
 
-mkdir $CATALINA_HOME/webapps/transformer
+mkdir -p $CATALINA_HOME/webapps/transformer
 
 
 cp -r src/main/webapp/* $CATALINA_HOME/webapps/transformer
