@@ -39,7 +39,7 @@ public class ContactServlet extends HttpServlet{
             resp.getWriter().println(req.getParameter("name"));
             Contact contact = getContactByName(sql);
             
-            if(contact.getName() != null){
+            if(contact != null){
                 resp.getWriter().println("Id: " + contact.getId());
                 resp.getWriter().println("Name: " + contact.getName());
                 resp.getWriter().println("Mobile: " + contact.getMobile());
@@ -69,11 +69,16 @@ public class ContactServlet extends HttpServlet{
             conn = DriverManager.getConnection("jdbc:mysql://localhost/test?" + "user=root" + "&password=");
             stmt = conn.createStatement();
             rs = stmt.executeQuery(sql);
-            
-            while (rs.next()){
-                contacts.add(getContactFromResultSet(rs));
+        } catch(SQLException sqle){
+            sqle.printStackTrace();
+        }
+        
+        try{
+            if(rs != null){
+                while (rs.next()){
+                    contacts.add(getContactFromResultSet(rs));
+                }
             }
-      
         } catch(SQLException sqle){
             sqle.printStackTrace();
         }
@@ -105,7 +110,7 @@ public class ContactServlet extends HttpServlet{
     }
     
     private Contact getContactByName(String sql){
-        Contact contact = new Contact(); 
+        Contact contact = null; 
         try{
             Class.forName("com.mysql.jdbc.Driver").newInstance();
         } catch (Exception ex)
