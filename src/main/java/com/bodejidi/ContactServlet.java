@@ -58,54 +58,20 @@ public class ContactServlet extends HttpServlet{
     
     private List<Contact> getAllContacts(String sql){
         List<Contact> contacts = new ArrayList();
-        try{
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
-        } catch (Exception ex)
-        {
-            //ignore;
-        }
+        DatabaseManager db = new DatabaseManager();
+        db.createDatebaseConnectionAndExecute(sql);
         
         try{
-            conn = DriverManager.getConnection("jdbc:mysql://localhost/test?" + "user=root" + "&password=");
-            stmt = conn.createStatement();
-            rs = stmt.executeQuery(sql);
-        } catch(SQLException sqle){
-            sqle.printStackTrace();
-        }
-        
-        try{
-            if(rs != null){
-                while (rs.next()){
-                    contacts.add(getContactFromResultSet(rs));
+            if(db.rs != null){
+                while (db.rs.next()){
+                    contacts.add(getContactFromResultSet(db.rs));
                 }
             }
         } catch(SQLException sqle){
             sqle.printStackTrace();
         }
         
-        if(rs != null){
-            try{
-                rs.close();
-            }catch(SQLException sqle){
-                //ignore;
-            }
-        }
-        
-        if(stmt != null){
-            try{
-                stmt.close();
-            }catch(SQLException sqle){
-                //ignore;
-            }
-        }
-        
-        if(conn != null){
-            try{
-                conn.close();
-            }catch(SQLException sqle){
-                //ignore;
-            }
-        }
+        db.close();
         return contacts;
     }
     
@@ -174,5 +140,56 @@ public class ContactServlet extends HttpServlet{
         contact.setJobLevel(rs.getInt("job_level"));
         
         return contact;
+    }
+}
+
+class DatabaseManager{
+    Connection conn = null;
+    Statement stmt = null;
+    ResultSet rs = null;
+    
+    public DatabaseManager createDatebaseConnectionAndExecute(String sql){
+        try{
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+        } catch (Exception ex)
+        {
+            //ignore;
+        }
+        
+        try{
+            conn = DriverManager.getConnection("jdbc:mysql://localhost/test?" + "user=root" + "&password=");
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(sql);
+        } catch(SQLException sqle){
+            sqle.printStackTrace();
+        }
+        
+        return this;
+    }
+    
+    public void close(){
+        if(rs != null){
+            try{
+                rs.close();
+            }catch(SQLException sqle){
+                //ignore;
+            }
+        }
+        
+        if(stmt != null){
+            try{
+                stmt.close();
+            }catch(SQLException sqle){
+                //ignore;
+            }
+        }
+        
+        if(conn != null){
+            try{
+                conn.close();
+            }catch(SQLException sqle){
+                //ignore;
+            }
+        }
     }
 }
