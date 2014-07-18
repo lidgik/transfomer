@@ -24,10 +24,9 @@ public class ContactServlet extends HttpServlet{
     
     public void doGet(HttpServletRequest req, HttpServletResponse resp)throws IOException, ServletException{
         if ((req.getParameter("name") == null) || (req.getParameter("name") == "")){
-            sql = "select * from contact";
             resp.getWriter().println("get all contacts!");
             
-            for(Contact contact: getAllContacts(sql)){
+            for(Contact contact: getAllContacts()){
                 resp.getWriter().println("Id:" + contact.getId());
                 resp.getWriter().println("Name:" + contact.getName());
                 resp.getWriter().println("Mobile:" + contact.getMobile());
@@ -35,9 +34,8 @@ public class ContactServlet extends HttpServlet{
                 resp.getWriter().println("Job:" + contact.getJob());
             }
         }else{
-            sql = "select * from contact where name ='" + req.getParameter("name") + "'";
             resp.getWriter().println(req.getParameter("name"));
-            Contact contact = getContactByName(sql);
+            Contact contact = getContactByName(req.getParameter("name"));
             
             if(contact != null){
                 resp.getWriter().println("Id: " + contact.getId());
@@ -56,7 +54,11 @@ public class ContactServlet extends HttpServlet{
         }
     }
     
-    private List<Contact> getAllContacts(String sql){
+    private List<Contact> getAllContacts(){
+        return findAllContactsBySQL("select * from contact");
+    }
+        
+    private List<Contact> findAllContactsBySQL(String sql){ 
         List<Contact> contacts = new ArrayList();
         DatabaseManager db = new DatabaseManager();
         db.createDatebaseConnectionAndExecute(sql);
@@ -69,13 +71,17 @@ public class ContactServlet extends HttpServlet{
             }
         } catch(SQLException sqle){
             sqle.printStackTrace();
+        } finally{
+            db.close();
         }
-        
-        db.close();
         return contacts;
     }
     
-    private Contact getContactByName(String sql){
+    private Contact getContactByName(String name){
+        return findContactByName("select * from contact where name ='" + name + "'");
+    }
+    
+    private Contact findContactByName(String sql){
         Contact contact = null; 
         DatabaseManager db = new DatabaseManager();
         db.createDatebaseConnectionAndExecute(sql);
@@ -86,9 +92,9 @@ public class ContactServlet extends HttpServlet{
             }
         } catch(SQLException sqle){
             sqle.printStackTrace();
+        } finally{
+            db.close();
         }
-        
-        db.close();
         return contact;
     }
     
