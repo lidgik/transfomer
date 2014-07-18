@@ -77,50 +77,18 @@ public class ContactServlet extends HttpServlet{
     
     private Contact getContactByName(String sql){
         Contact contact = null; 
-        try{
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
-        } catch (Exception ex)
-        {
-            //ignore;
-        }
+        DatabaseManager db = new DatabaseManager();
+        db.createDatebaseConnectionAndExecute(sql);
         
         try{
-            conn = DriverManager.getConnection("jdbc:mysql://localhost/test?" + "user=root" + "&password=");
-            stmt = conn.createStatement();
-            rs = stmt.executeQuery(sql);
-            
-            if (rs.next()){
-                
-                contact = getContactFromResultSet(rs);
+            if (db.rs.next()){
+                contact = getContactFromResultSet(db.rs);
             }
-            
         } catch(SQLException sqle){
             sqle.printStackTrace();
         }
         
-        if(rs != null){
-            try{
-                rs.close();
-            }catch(SQLException sqle){
-                //ignore;
-            }
-        }
-        
-        if(stmt != null){
-            try{
-                stmt.close();
-            }catch(SQLException sqle){
-                //ignore;
-            }
-        }
-        
-        if(conn != null){
-            try{
-                conn.close();
-            }catch(SQLException sqle){
-                //ignore;
-            }
-        }
+        db.close();
         return contact;
     }
     
