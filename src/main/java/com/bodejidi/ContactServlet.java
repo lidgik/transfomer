@@ -71,15 +71,7 @@ public class ContactServlet extends HttpServlet{
             rs = stmt.executeQuery(sql);
             
             while (rs.next()){
-                Contact contact = new Contact();
-                
-                contact.setId(rs.getInt("id"));
-                contact.setName(rs.getString("name"));
-                contact.setMobile(rs.getString("mobile"));
-                contact.setVpmn(rs.getString("vpmn"));
-                contact.setJob(rs.getString("job"));
-                
-                contacts.add(contact);
+                contacts.add(getContactFromResultSet(rs));
             }
       
         } catch(SQLException sqle){
