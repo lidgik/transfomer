@@ -75,7 +75,15 @@ public class ContactServlet extends HttpServlet{
             sql = "select * from contact where name ='" + req.getParameter("name") + "'";
             resp.getWriter().println(req.getParameter("name"));
             
-
+            String name = null;
+            String mobile = null;
+            String vpmn = null;
+            String email = null;
+            String homeAddress = null;
+            String officeAddress = null;
+            String memo = null;
+            String job = null;
+            Integer jobLevel = null;
             try{
                 Class.forName("com.mysql.jdbc.Driver").newInstance();
             } catch (Exception ex)
@@ -89,10 +97,28 @@ public class ContactServlet extends HttpServlet{
                 rs = stmt.executeQuery(sql);
                 
                 if (rs.next()){
-                    resp.getWriter().println(rs.getInt("id"));
-                    resp.getWriter().println(rs.getString("name"));
-                    resp.getWriter().println(rs.getString("mobile"));
-                    resp.getWriter().println(rs.getString("office_address"));
+                
+                    name = rs.getString("name");
+                    mobile = rs.getString("mobile");
+                    vpmn = rs.getString("vpmn");
+                    email = rs.getString("email");
+                    homeAddress = rs.getString("home_address");
+                    officeAddress = rs.getString("office_address");
+                    memo = rs.getString("memo");
+                    job = rs.getString("job");
+                    jobLevel = rs.getInt("job_level");
+                    
+                    resp.getWriter().println("Name: " + name);
+                    resp.getWriter().println("Mobile: " + mobile);
+                    resp.getWriter().println("Vpmn: " + vpmn);
+                    resp.getWriter().println("Email: " + email);
+                    resp.getWriter().println("HomeAddress: " + homeAddress);
+                    resp.getWriter().println("OfficeAddress: " + officeAddress);
+                    resp.getWriter().println("Memo: " + memo);
+                    resp.getWriter().println("Job: " + job);
+                    resp.getWriter().println("JobLevel: " + jobLevel);
+                    
+                   
                 }
                 else{
                     resp.getWriter().println("no such contact!");
