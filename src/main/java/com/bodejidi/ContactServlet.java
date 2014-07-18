@@ -27,7 +27,7 @@ public class ContactServlet extends HttpServlet{
         if ((req.getParameter("name") == null) || (req.getParameter("name") == "")){
             sql = "select * from contact";
             resp.getWriter().println("get all contacts!");
-            List contacts = new ArrayList();
+            List<Map> contacts = new ArrayList();
             try{
                 Class.forName("com.mysql.jdbc.Driver").newInstance();
             } catch (Exception ex)
@@ -50,14 +50,6 @@ public class ContactServlet extends HttpServlet{
                     contact.put("job", rs.getString("job"));
                     
                     contacts.add(contact);
-                    
-                    resp.getWriter().println("Id:" + contact.get("id"));
-                    resp.getWriter().println("Name:" + contact.get("name"));
-                    resp.getWriter().println("Mobile:" + contact.get("mobile"));
-                    resp.getWriter().println("Vpmn:" + contact.get("vpmn"));
-                    resp.getWriter().println("Job:" + contact.get("job"));
-                    
-                    
                 }
           
             } catch(SQLException sqle){
@@ -88,6 +80,16 @@ public class ContactServlet extends HttpServlet{
                 }catch(SQLException sqle){
                     //ignore;
                 }
+            }
+            
+            for(Map map: contacts){
+                Map contact = map;
+            
+                resp.getWriter().println("Id:" + contact.get("id"));
+                resp.getWriter().println("Name:" + contact.get("name"));
+                resp.getWriter().println("Mobile:" + contact.get("mobile"));
+                resp.getWriter().println("Vpmn:" + contact.get("vpmn"));
+                resp.getWriter().println("Job:" + contact.get("job"));
             }
         }else{
             sql = "select * from contact where name ='" + req.getParameter("name") + "'";
