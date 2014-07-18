@@ -12,6 +12,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
 
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
+
 public class ContactServlet extends HttpServlet{
     public void doGet(HttpServletRequest req, HttpServletResponse resp)throws IOException, ServletException{
         String sql = null;
@@ -22,7 +27,7 @@ public class ContactServlet extends HttpServlet{
         if ((req.getParameter("name") == null) || (req.getParameter("name") == "")){
             sql = "select * from contact";
             resp.getWriter().println("get all contacts!");
-          
+            List contacts = new ArrayList();
             try{
                 Class.forName("com.mysql.jdbc.Driver").newInstance();
             } catch (Exception ex)
@@ -36,10 +41,23 @@ public class ContactServlet extends HttpServlet{
                 rs = stmt.executeQuery(sql);
                 
                 while (rs.next()){
-                    resp.getWriter().println(rs.getInt("id"));
-                    resp.getWriter().println(rs.getString("name"));
-                    resp.getWriter().println(rs.getString("mobile"));
-                    resp.getWriter().println(rs.getString("office_address"));
+                    Map contact = new HashMap();
+                    
+                    contact.put("id", rs.getInt("id"));
+                    contact.put("name", rs.getString("name"));
+                    contact.put("mobile", rs.getString("mobile"));
+                    contact.put("vpmn", rs.getString("vpmn"));
+                    contact.put("job", rs.getString("job"));
+                    
+                    contacts.add(contact);
+                    
+                    resp.getWriter().println("Id:" + contact.get("id"));
+                    resp.getWriter().println("Name:" + contact.get("name"));
+                    resp.getWriter().println("Mobile:" + contact.get("mobile"));
+                    resp.getWriter().println("Vpmn:" + contact.get("vpmn"));
+                    resp.getWriter().println("Job:" + contact.get("job"));
+                    
+                    
                 }
           
             } catch(SQLException sqle){
