@@ -14,10 +14,15 @@ import java.sql.ResultSet;
 
 public class ContactServlet extends HttpServlet{
     public void doGet(HttpServletRequest req, HttpServletResponse resp)throws IOException, ServletException{
-    
-    	resp.getWriter().println(req.getParameter("name"));
-        String sql = "select * from contact";
-        
+        String sql = null;
+    	
+        if ((req.getParameter("name") != null) && (req.getParameter("name") != "")){
+            sql = "select * from contact where name ='" + req.getParameter("name") + "'";
+            resp.getWriter().println(req.getParameter("name"));
+        }else{
+            sql = "select * from contact";
+            resp.getWriter().println("contacts list");
+        }
         Connection conn = null;
         Statement stmt = null;
         ResultSet rs = null;
