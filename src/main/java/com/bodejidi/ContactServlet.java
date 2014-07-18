@@ -40,16 +40,8 @@ public class ContactServlet extends HttpServlet{
         }else{
             sql = "select * from contact where name ='" + req.getParameter("name") + "'";
             resp.getWriter().println(req.getParameter("name"));
+            Map contact = new HashMap();
             
-            String name = null;
-            String mobile = null;
-            String vpmn = null;
-            String email = null;
-            String homeAddress = null;
-            String officeAddress = null;
-            String memo = null;
-            String job = null;
-            Integer jobLevel = null;
             try{
                 Class.forName("com.mysql.jdbc.Driver").newInstance();
             } catch (Exception ex)
@@ -64,27 +56,26 @@ public class ContactServlet extends HttpServlet{
                 
                 if (rs.next()){
                 
-                    name = rs.getString("name");
-                    mobile = rs.getString("mobile");
-                    vpmn = rs.getString("vpmn");
-                    email = rs.getString("email");
-                    homeAddress = rs.getString("home_address");
-                    officeAddress = rs.getString("office_address");
-                    memo = rs.getString("memo");
-                    job = rs.getString("job");
-                    jobLevel = rs.getInt("job_level");
+                    contact.put("name", rs.getString("name"));
+                    contact.put("mobile", rs.getString("mobile"));
+                    contact.put("vpmn", rs.getString("vpmn"));
+                    contact.put("email", rs.getString("email"));
+                    contact.put("homeAddress", rs.getString("home_address"));
+                    contact.put("officeAddress", rs.getString("office_address"));
+                    contact.put("memo", rs.getString("memo"));
+                    contact.put("job", rs.getString("job"));
+                    contact.put("jobLevel", rs.getString("job_level"));
                     
-                    resp.getWriter().println("Name: " + name);
-                    resp.getWriter().println("Mobile: " + mobile);
-                    resp.getWriter().println("Vpmn: " + vpmn);
-                    resp.getWriter().println("Email: " + email);
-                    resp.getWriter().println("HomeAddress: " + homeAddress);
-                    resp.getWriter().println("OfficeAddress: " + officeAddress);
-                    resp.getWriter().println("Memo: " + memo);
-                    resp.getWriter().println("Job: " + job);
-                    resp.getWriter().println("JobLevel: " + jobLevel);
-                    
-                   
+                    resp.getWriter().println("Name: " + contact.get("name"));
+                    resp.getWriter().println("Mobile: " + contact.get("mobile"));
+                    resp.getWriter().println("Vpmn: " + contact.get("vpmn"));
+                    resp.getWriter().println("Email: " + contact.get("email"));
+                    resp.getWriter().println("HomeAddress: " + contact.get("homeAddress"));
+                    resp.getWriter().println("OfficeAddress: " + contact.get("officeAddress"));
+                    resp.getWriter().println("Memo: " + contact.get("memo"));
+                    resp.getWriter().println("Job: " + contact.get("job"));
+                    resp.getWriter().println("JobLevel: " + contact.get("jobLevel"));
+
                 }
                 else{
                     resp.getWriter().println("no such contact!");
