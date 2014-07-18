@@ -127,16 +127,8 @@ public class ContactServlet extends HttpServlet{
             rs = stmt.executeQuery(sql);
             
             if (rs.next()){
-                contact.setId(rs.getInt("id"));
-                contact.setName(rs.getString("name"));
-                contact.setMobile(rs.getString("mobile"));
-                contact.setVpmn(rs.getString("vpmn"));
-                contact.setEmail(rs.getString("email"));
-                contact.setHomeAddress(rs.getString("home_address"));
-                contact.setOfficeAddress(rs.getString("office_address"));
-                contact.setMemo(rs.getString("memo"));
-                contact.setJob(rs.getString("job"));
-                contact.setJobLevel(rs.getInt("job_level"));
+                
+                contact = getContactFromResultSet(rs);
             }
             
         } catch(SQLException sqle){
@@ -166,6 +158,24 @@ public class ContactServlet extends HttpServlet{
                 //ignore;
             }
         }
+        return contact;
+    }
+    
+    public Contact getContactFromResultSet(ResultSet rs)
+        throws SQLException{
+        Contact contact = new Contact();
+        
+        contact.setId(rs.getInt("id"));
+        contact.setName(rs.getString("name"));
+        contact.setMobile(rs.getString("mobile"));
+        contact.setVpmn(rs.getString("vpmn"));
+        contact.setEmail(rs.getString("email"));
+        contact.setHomeAddress(rs.getString("home_address"));
+        contact.setOfficeAddress(rs.getString("office_address"));
+        contact.setMemo(rs.getString("memo"));
+        contact.setJob(rs.getString("job"));
+        contact.setJobLevel(rs.getInt("job_level"));
+        
         return contact;
     }
 }
