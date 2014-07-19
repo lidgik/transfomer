@@ -51,10 +51,10 @@ public class ContactServlet extends HttpServlet{
     }
     
     private List<Contact> getAllContacts(){
-        return findAllContactsBySQL("select * from contact");
+        return findContactBySQL("select * from contact");
     }
         
-    private List<Contact> findAllContactsBySQL(String sql){ 
+    private List<Contact> findContactBySQL(String sql){ 
         List<Contact> contacts = new ArrayList();
         DatabaseManager db = new DatabaseManager();
         db.createDatebaseConnectionAndExecute(sql);
@@ -72,7 +72,7 @@ public class ContactServlet extends HttpServlet{
     }
     
     private List<Contact> getContactByName(String name){
-        return  findAllContactsBySQL("select * from contact where name ='" + name + "'");
+        return  findContactBySQL("select * from contact where name ='" + name + "'");
     }
     
     public Contact getContactFromResultSet(ResultSet rs)
