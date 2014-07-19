@@ -60,10 +60,8 @@ public class ContactServlet extends HttpServlet{
         db.createDatebaseConnectionAndExecute(sql);
         
         try{
-            if(db.rs != null){
-                while (db.rs.next()){
-                    contacts.add(getContactFromResultSet(db.rs));
-                }
+            while (db.rs.next()){
+                contacts.add(getContactFromResultSet(db.rs));
             }
         } catch(SQLException sqle){
             sqle.printStackTrace();
@@ -74,24 +72,7 @@ public class ContactServlet extends HttpServlet{
     }
     
     private List<Contact> getContactByName(String name){
-        return findContactByName("select * from contact where name ='" + name + "'");
-    }
-    
-    private List<Contact> findContactByName(String sql){
-        List<Contact> contacts = new ArrayList();
-        DatabaseManager db = new DatabaseManager();
-        db.createDatebaseConnectionAndExecute(sql);
-        
-        try{
-            if (db.rs.next()){
-                contacts.add(getContactFromResultSet(db.rs));
-            }
-        } catch(SQLException sqle){
-            sqle.printStackTrace();
-        } finally{
-            db.close();
-        }
-        return contacts;
+        return  findAllContactsBySQL("select * from contact where name ='" + name + "'");
     }
     
     public Contact getContactFromResultSet(ResultSet rs)
