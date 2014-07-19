@@ -21,13 +21,23 @@
     </description>
  
     <servlet>
-        <servlet-name>trans</servlet-name>
+        <servlet-name>contactServlet</servlet-name>
         <servlet-class>com.bodejidi.ContactServlet</servlet-class>
     </servlet>
     
     <servlet-mapping>
-        <servlet-name>trans</servlet-name>
+        <servlet-name>contactServlet</servlet-name>
         <url-pattern>/former</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>contactCreate</servlet-name>
+        <servlet-class>com.bodejidi.ContactCreateServlet</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>contactCreate</servlet-name>
+        <url-pattern>/create</url-pattern>
     </servlet-mapping>
 
 </web-app>
