@@ -30,6 +30,25 @@ public class DatabaseManager{
         return this;
     }
     
+    public DatabaseManager executeUpdate(String sql){
+        try{
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+        } catch (Exception ex)
+        {
+            //ignore;
+        }
+        
+        try{
+            conn = DriverManager.getConnection("jdbc:mysql://localhost/test?" + "user=root" + "&password=");
+            stmt = conn.createStatement();
+            stmt.executeUpdate(sql,Statement.RETURN_GENERATED_KEYS);
+            rs = stmt.getGeneratedKeys();
+        } catch(SQLException sqle){
+            sqle.printStackTrace();
+        }
+        return this;
+    }
+    
     public void close(){
         if(rs != null){
             try{

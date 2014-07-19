@@ -53,4 +53,36 @@ public class ContactService {
         return contact;
     }
     
+    public Contact save(Contact contact){
+        String sql = "INSERT INTO `contact` (`id`, `name`, `mobile`, "
+            + "`vpmn`, `email`, `home_address`, `office_address`, `memo`, "
+            + "`job`, `job_level`) "
+            + "VALUES"
+            + "(null,'"
+            + contact.getName() + "','"
+            + contact.getMobile() + "','"
+            + contact.getVpmn() + "','"
+            + contact.getEmail() + "','"
+            + contact.getHomeAddress() + "','"
+            + contact.getOfficeAddress() + "','"
+            + contact.getMemo() + "','"
+            + contact.getJob() + "',"
+            + contact.getJobLevel() + ")";
+        DatabaseManager db = new DatabaseManager();
+        db.executeUpdate(sql);
+        
+        try {
+        if(db.rs != null) {
+            db.rs.next();
+            contact.setId(db.rs.getInt(1));
+        }
+        } catch(SQLException sqle) {
+            sqle.printStackTrace();
+        }
+
+        db.close();
+
+        return contact;
+    }
+    
 }
