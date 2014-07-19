@@ -12,6 +12,10 @@ public class Contact{
     String job;
     Integer jobLevel;
     
+    public String toString(){
+        return name;
+    }
+    
     public void setId(Integer id){
         this.id = id;
     }

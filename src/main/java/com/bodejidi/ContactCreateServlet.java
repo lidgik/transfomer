@@ -29,7 +29,7 @@ public class ContactCreateServlet extends HttpServlet{
         contact.setMemo(req.getParameter("memo"));
         contact.setJob(req.getParameter("job"));
         contact.setJobLevel(Integer.parseInt(req.getParameter("jobLevel")));
-        resp.getWriter().println(contact.getName());
+        resp.getWriter().println("Creat contact :"+contact);
     }
     
 }
