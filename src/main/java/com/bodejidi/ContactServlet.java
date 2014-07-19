@@ -15,17 +15,12 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.ArrayList;
 
-
 public class ContactServlet extends HttpServlet{
     String sql = null;
-    Connection conn = null;
-    Statement stmt = null;
-    ResultSet rs = null;
-    
+
     public void doGet(HttpServletRequest req, HttpServletResponse resp)throws IOException, ServletException{
         if ((req.getParameter("name") == null) || (req.getParameter("name") == "")){
-            resp.getWriter().println("get all contacts!");
-            
+            resp.getWriter().println("get all contacts!");            
             for(Contact contact: getAllContacts()){
                 resp.getWriter().println("Id:" + contact.getId());
                 resp.getWriter().println("Name:" + contact.getName());
@@ -35,8 +30,7 @@ public class ContactServlet extends HttpServlet{
             }
         }else{
             resp.getWriter().println(req.getParameter("name"));
-            Contact contact = getContactByName(req.getParameter("name"));
-            
+            Contact contact = getContactByName(req.getParameter("name"));            
             if(contact != null){
                 resp.getWriter().println("Id: " + contact.getId());
                 resp.getWriter().println("Name: " + contact.getName());
