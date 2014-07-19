@@ -12,7 +12,13 @@ import java.util.ArrayList;
 public class ContactCreateServlet extends HttpServlet{
 
     public void doGet(HttpServletRequest req, HttpServletResponse resp)throws IOException, ServletException{
-        resp.getWriter().println("Create contact!");
+        getServletContext()
+              .getRequestDispatcher("/WEB-INF/jsp/contact/create.jsp")
+              .forward(req, resp);
+    }
+    
+    public void doPost(HttpServletRequest req, HttpServletResponse resp)throws IOException, ServletException{
+       resp.getWriter().println("DoPost :");
     }
     
 }
