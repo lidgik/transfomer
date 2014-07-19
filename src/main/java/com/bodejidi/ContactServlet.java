@@ -15,14 +15,11 @@ public class ContactServlet extends HttpServlet{
         ContactService contactService = new ContactService();
     
         if ((req.getParameter("name") == null) || (req.getParameter("name") == "")){
-            resp.getWriter().println("get all contacts!");            
-            for(Contact contact: contactService.getAllContacts()){
-                resp.getWriter().println("Id:" + contact.getId());
-                resp.getWriter().println("Name:" + contact.getName());
-                resp.getWriter().println("Mobile:" + contact.getMobile());
-                resp.getWriter().println("Vpmn:" + contact.getVpmn());
-                resp.getWriter().println("Job:" + contact.getJob());
-            }
+            req.setAttribute("contactList", contactService.getAllContacts());
+            
+            getServletContext()
+                .getRequestDispatcher("/WEB-INF/jsp/contact/list.jsp")
+                .forward(req, resp);
         }else{
             resp.getWriter().println(req.getParameter("name"));  
             List<Contact> contacts = contactService.getContactByName(req.getParameter("name")); 
