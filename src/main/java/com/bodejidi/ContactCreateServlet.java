@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class ContactCreateServlet extends HttpServlet{
+ 
 
     public void doGet(HttpServletRequest req, HttpServletResponse resp)throws IOException, ServletException{
         getServletContext()
@@ -18,15 +19,17 @@ public class ContactCreateServlet extends HttpServlet{
     }
     
     public void doPost(HttpServletRequest req, HttpServletResponse resp)throws IOException, ServletException{
-            resp.getWriter().println("Name: " + req.getParameter("name"));
-            resp.getWriter().println("Mobile: " + req.getParameter("mobile"));
-            resp.getWriter().println("Vpmn: " + req.getParameter("vpmn"));
-            resp.getWriter().println("Email: " + req.getParameter("email"));
-            resp.getWriter().println("HomeAddress: " + req.getParameter("homeAddress"));
-            resp.getWriter().println("OfficeAddress: " + req.getParameter("officaAddress"));
-            resp.getWriter().println("Memo: " + req.getParameter("memo"));
-            resp.getWriter().println("Job: " + req.getParameter("job"));
-            resp.getWriter().println("JobLevel: " + req.getParameter("jobLevel"));
+        Contact contact = new Contact();
+        contact.setName(req.getParameter("name"));
+        contact.setMobile(req.getParameter("mobile"));
+        contact.setVpmn(req.getParameter("vpmn"));
+        contact.setEmail(req.getParameter("email"));
+        contact.setHomeAddress(req.getParameter("homeAddress"));
+        contact.setOfficeAddress(req.getParameter("officaAddress"));
+        contact.setMemo(req.getParameter("memo"));
+        contact.setJob(req.getParameter("job"));
+        contact.setJobLevel(Integer.parseInt(req.getParameter("jobLevel")));
+        resp.getWriter().println(contact.getName());
     }
     
 }
