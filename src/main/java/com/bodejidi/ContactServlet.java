@@ -29,19 +29,21 @@ public class ContactServlet extends HttpServlet{
                 resp.getWriter().println("Job:" + contact.getJob());
             }
         }else{
-            resp.getWriter().println(req.getParameter("name"));
-            Contact contact = getContactByName(req.getParameter("name"));            
-            if(contact != null){
-                resp.getWriter().println("Id: " + contact.getId());
-                resp.getWriter().println("Name: " + contact.getName());
-                resp.getWriter().println("Mobile: " + contact.getMobile());
-                resp.getWriter().println("Vpmn: " + contact.getVpmn());
-                resp.getWriter().println("Email: " + contact.getEmail());
-                resp.getWriter().println("HomeAddress: " + contact.getHomeAddress());
-                resp.getWriter().println("OfficeAddress: " + contact.getOfficeAddress());
-                resp.getWriter().println("Memo: " + contact.getMemo());
-                resp.getWriter().println("Job: " + contact.getJob());
-                resp.getWriter().println("JobLevel: " + contact.getJobLevel());
+            resp.getWriter().println(req.getParameter("name"));  
+            List<Contact> contacts = getContactByName(req.getParameter("name")); 
+            if(contacts.size() > 0){
+                for(Contact contact: contacts){
+                    resp.getWriter().println("Id: " + contact.getId());
+                    resp.getWriter().println("Name: " + contact.getName());
+                    resp.getWriter().println("Mobile: " + contact.getMobile());
+                    resp.getWriter().println("Vpmn: " + contact.getVpmn());
+                    resp.getWriter().println("Email: " + contact.getEmail());
+                    resp.getWriter().println("HomeAddress: " + contact.getHomeAddress());
+                    resp.getWriter().println("OfficeAddress: " + contact.getOfficeAddress());
+                    resp.getWriter().println("Memo: " + contact.getMemo());
+                    resp.getWriter().println("Job: " + contact.getJob());
+                    resp.getWriter().println("JobLevel: " + contact.getJobLevel());
+                }
             }else{
                 resp.getWriter().println("Contact not found!");
             }
@@ -71,25 +73,25 @@ public class ContactServlet extends HttpServlet{
         return contacts;
     }
     
-    private Contact getContactByName(String name){
+    private List<Contact> getContactByName(String name){
         return findContactByName("select * from contact where name ='" + name + "'");
     }
     
-    private Contact findContactByName(String sql){
-        Contact contact = null; 
+    private List<Contact> findContactByName(String sql){
+        List<Contact> contacts = new ArrayList();
         DatabaseManager db = new DatabaseManager();
         db.createDatebaseConnectionAndExecute(sql);
         
         try{
             if (db.rs.next()){
-                contact = getContactFromResultSet(db.rs);
+                contacts.add(getContactFromResultSet(db.rs));
             }
         } catch(SQLException sqle){
             sqle.printStackTrace();
         } finally{
             db.close();
         }
-        return contact;
+        return contacts;
     }
     
     public Contact getContactFromResultSet(ResultSet rs)
