@@ -27,7 +27,7 @@
     
     <servlet-mapping>
         <servlet-name>contactServlet</servlet-name>
-        <url-pattern>/former</url-pattern>
+        <url-pattern>/contact</url-pattern>
     </servlet-mapping>
     
     <servlet>
@@ -37,7 +37,17 @@
     
     <servlet-mapping>
         <servlet-name>contactCreate</servlet-name>
-        <url-pattern>/create</url-pattern>
+        <url-pattern>/contact/create</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>group</servlet-name>
+        <servlet-class>com.bodejidi.GroupServlet</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>group</servlet-name>
+        <url-pattern>/group</url-pattern>
     </servlet-mapping>
 
 </web-app>

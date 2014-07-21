@@ -24,7 +24,7 @@ public class ContactServlet extends HttpServlet{
             resp.getWriter().println(req.getParameter("name"));  
             List<Contact> contacts = contactService.getContactByName(req.getParameter("name")); 
             if(contacts.size() > 0){
-                req.setAttribute("contact", contactService.getContactsByName());
+                req.setAttribute("contact", contacts);
                 
                 getServletContext()
                     .getRequestDispatcher("/WEB-INF/jsp/contact/show.jsp")
