@@ -77,6 +77,7 @@ public class GroupServlet extends HttpServlet{
 					conn.close();
 				} catch(Exception e){}
 			}
+	
 		} else {
 			try {
 				Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -97,11 +98,6 @@ public class GroupServlet extends HttpServlet{
 					parent = rs.getString("department_parent");
 					address = rs.getString("department_address");
 		
-					resp.getWriter().println(id);
-					resp.getWriter().println(name);
-					resp.getWriter().println(memo);
-					resp.getWriter().println(parent);
-					resp.getWriter().println(address);
 				} else {
 					resp.getWriter().println("no such department!");
 				}
@@ -127,6 +123,11 @@ public class GroupServlet extends HttpServlet{
 					conn.close();
 				} catch(Exception e){}
 			}
+			resp.getWriter().println(id);
+			resp.getWriter().println(name);
+			resp.getWriter().println(memo);
+			resp.getWriter().println(parent);
+			resp.getWriter().println(address);
 		}
 	}    
 }
