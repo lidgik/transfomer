@@ -23,6 +23,12 @@ public class GroupServlet extends HttpServlet{
 		Connection conn = null;
 		Statement stmt = null;
 		ResultSet rs = null;
+		
+		Integer id = null;
+		String name = null;
+		String memo = null;
+		String parent = null;
+		String address = null;
 
 		if(((req.getParameter("department_name") == null) || (req.getParameter("department_name") == ""))) {
 			resp.getWriter().println("All Department!");
@@ -34,12 +40,21 @@ public class GroupServlet extends HttpServlet{
 				sql = "select * from department";
 				conn = DriverManager.getConnection("jdbc:mysql://localhost/test?user=root&password=");
 				stmt = conn.createStatement();
-				resp.getWriter().println("stmt!");
 				rs = stmt.executeQuery(sql);
-				resp.getWriter().println("rs!");
-
-				rs.next();
-				resp.getWriter().println(rs.getString("department_name"));
+				
+				while(rs.next()){
+					id = rs.getInt("department_id");
+					name = rs.getString("department_name");
+					memo = rs.getString("department_memo");
+					parent = rs.getString("department_parent");
+					address = rs.getString("department_address");
+		
+					resp.getWriter().println(id);
+					resp.getWriter().println(name);
+					resp.getWriter().println(memo);
+					resp.getWriter().println(parent);
+					resp.getWriter().println(address);
+				}
 			} catch(SQLException sqle) {
 				resp.getWriter().println("cannot connect to db.");
 				sqle.printStackTrace();
@@ -72,12 +87,21 @@ public class GroupServlet extends HttpServlet{
 				conn = DriverManager.getConnection("jdbc:mysql://localhost/test?user=root&password=");
 				stmt = conn.createStatement();
 				resp.getWriter().println(req.getParameter("department_name"));
-				resp.getWriter().println("stmt!");
 				rs = stmt.executeQuery(sql);
-				resp.getWriter().println("rs!");
 
 				if(rs.next()){
-					resp.getWriter().println(rs.getString("department_memo"));
+					
+					id = rs.getInt("department_id");
+					name = rs.getString("department_name");
+					memo = rs.getString("department_memo");
+					parent = rs.getString("department_parent");
+					address = rs.getString("department_address");
+		
+					resp.getWriter().println(id);
+					resp.getWriter().println(name);
+					resp.getWriter().println(memo);
+					resp.getWriter().println(parent);
+					resp.getWriter().println(address);
 				} else {
 					resp.getWriter().println("no such department!");
 				}
