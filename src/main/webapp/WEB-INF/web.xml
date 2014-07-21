@@ -41,13 +41,13 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>group</servlet-name>
-        <servlet-class>com.bodejidi.GroupServlet</servlet-class>
+        <servlet-name>department</servlet-name>
+        <servlet-class>com.bodejidi.DepartmentServlet</servlet-class>
     </servlet>
     
     <servlet-mapping>
-        <servlet-name>group</servlet-name>
-        <url-pattern>/group</url-pattern>
+        <servlet-name>department</servlet-name>
+        <url-pattern>/department</url-pattern>
     </servlet-mapping>
 
 </web-app>

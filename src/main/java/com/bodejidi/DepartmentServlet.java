@@ -15,7 +15,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
 
-public class GroupServlet extends HttpServlet{
+public class DepartmentServlet extends HttpServlet{
 
     public void doGet(HttpServletRequest req, HttpServletResponse resp)
 		throws IOException, ServletException{
