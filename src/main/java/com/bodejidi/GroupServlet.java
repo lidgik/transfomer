@@ -24,42 +24,85 @@ public class GroupServlet extends HttpServlet{
 		Statement stmt = null;
 		ResultSet rs = null;
 
-		resp.getWriter().println("Group servlet!");
-		try {
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
-		} catch(Exception e) {}
-
-		try {
-			sql = "select * from department";
-			conn = DriverManager.getConnection("jdbc:mysql://localhost/test?user=root&password=");
-			stmt = conn.createStatement();
-			resp.getWriter().println("stmt!");
-			rs = stmt.executeQuery(sql);
-			resp.getWriter().println("rs!");
-
-			rs.next();
-			resp.getWriter().println(rs.getString("department_memo"));
-		} catch(SQLException sqle) {
-			resp.getWriter().println("cannot connect to db.");
-			sqle.printStackTrace();
-		}
-
-		if(rs != null) {
+		if(((req.getParameter("department_name") == null) || (req.getParameter("department_name") == ""))) {
+			resp.getWriter().println("All Department!");
 			try {
-				rs.close();
-			} catch(Exception e){}
-		}
+				Class.forName("com.mysql.jdbc.Driver").newInstance();
+			} catch(Exception e) {}
 
-		if(stmt != null) {
 			try {
-				stmt.close();
-			} catch(Exception e){}
-		}
+				sql = "select * from department";
+				conn = DriverManager.getConnection("jdbc:mysql://localhost/test?user=root&password=");
+				stmt = conn.createStatement();
+				resp.getWriter().println("stmt!");
+				rs = stmt.executeQuery(sql);
+				resp.getWriter().println("rs!");
 
-		if(conn != null) {
+				rs.next();
+				resp.getWriter().println(rs.getString("department_name"));
+			} catch(SQLException sqle) {
+				resp.getWriter().println("cannot connect to db.");
+				sqle.printStackTrace();
+			}
+
+			if(rs != null) {
+				try {
+					rs.close();
+				} catch(Exception e){}
+			}
+
+			if(stmt != null) {
+				try {
+					stmt.close();
+				} catch(Exception e){}
+			}
+
+			if(conn != null) {
+				try {
+					conn.close();
+				} catch(Exception e){}
+			}
+		} else {
 			try {
-				conn.close();
-			} catch(Exception e){}
+				Class.forName("com.mysql.jdbc.Driver").newInstance();
+			} catch(Exception e) {}
+
+			try {
+				sql = "select * from department where department_name='" + req.getParameter("department_name") + "'";
+				conn = DriverManager.getConnection("jdbc:mysql://localhost/test?user=root&password=");
+				stmt = conn.createStatement();
+				resp.getWriter().println(req.getParameter("department_name"));
+				resp.getWriter().println("stmt!");
+				rs = stmt.executeQuery(sql);
+				resp.getWriter().println("rs!");
+
+				if(rs.next()){
+					resp.getWriter().println(rs.getString("department_memo"));
+				} else {
+					resp.getWriter().println("no such department!");
+				}
+			} catch(SQLException sqle) {
+				resp.getWriter().println("cannot connect to db.");
+				sqle.printStackTrace();
+			}
+
+			if(rs != null) {
+				try {
+					rs.close();
+				} catch(Exception e){}
+			}
+
+			if(stmt != null) {
+				try {
+					stmt.close();
+				} catch(Exception e){}
+			}
+
+			if(conn != null) {
+				try {
+					conn.close();
+				} catch(Exception e){}
+			}
 		}
 	}    
 }
